@@ -1,0 +1,7 @@
+- hosts: localhost
+  become: true
+  roles:
+   - role: geerlingguy.docker
+   - role: ansiblebit.oracle-java
+   - role: gantsign.maven 
+   

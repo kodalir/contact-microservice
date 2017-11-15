@@ -1,0 +1,4 @@
+---
+- src: geerlingguy.docker
+- src: ansiblebit.oracle-java
+- src: gantsign.maven

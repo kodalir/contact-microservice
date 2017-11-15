@@ -1,0 +1,23 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+ config.vm.box = "ubuntu/trusty64"
+ config.vm.synced_folder ".", "/vagrant"
+ config.vm.provider "virtualbox" do |vbox|
+  vbox.memory = 2048
+ end
+ config.vm.define :services_dev do |services_dev|
+  services_dev.vm.network "private_network", ip: "10.100.199.200"
+  services_dev.vm.provision "ansible_local" do |ansible|
+   ansible.verbose = "v"
+   #inluceds the prebuilt roles from ansible-galaxy
+   ansible.galaxy_role_file = "requirements.yml"
+   #This is the actual playboo any custom roles will have to be added here
+   ansible.playbook = "servicesdev.yml"
+   #we need to have this because for some reason ansible is skipping localhost. This is so stupid as I am using ansible_local provisioner
+   #seems to be a bug
+   ansible.limit = "all,localhost"
+  end
+ end	
+end
